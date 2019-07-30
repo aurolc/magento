@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <nombrescript>
+            <version>0.1.0</version>
+        </nombrescript>
+    </modules>
+    <global>
+        <resources>
+            <nombrescript_setup>
+              <setup>
+                   <module>nombrescript</module>
+                   <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
+              </setup>
+          </nombrescript_setup>
+        </resources>  
+    </global>
+</config> 
