@@ -1,5 +1,7 @@
 #! /bin/bash
 
+baseDir=$(pwd | sed s'#/scripts##')
+
 get_magento_public_ip() {
    local ip
 
@@ -37,7 +39,7 @@ cp -af "$fileTfState" .
 magentoIp=$(get_magento_public_ip)
 
 # Enviamos los ficheros
-rsync -va --stats -e 'ssh -i ~/.ssh/aws_id_rsa' ../data ubuntu@$magentoIp:/tmp/
+rsync -va --stats -e 'ssh -i ~/.ssh/aws_id_rsa' ${baseDir}/data ubuntu@$magentoIp:/tmp/
 
 [ $? -ne 0 ] && exit 1
 
