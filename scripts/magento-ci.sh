@@ -43,14 +43,12 @@ rsync -va --stats -e 'ssh -i ~/.ssh/aws_id_rsa' ${baseDir}/data ubuntu@$magentoI
 
 [ $? -ne 0 ] && exit 1
 
-# Movemos los ficheros a la ruta que le corresponde en la maquina destino
-ssh -i ~/.ssh/aws_id_rsa ubuntu@$magentoIp "sudo rsync -va --stats /tmp/data/ /var/www/magento/"
-
-[ $? -ne 0 ] && exit 1
-
-# Reestablecemos permisos
-ssh -i ~/.ssh/aws_id_rsa ubuntu@$magentoIp "sudo chown -R www-data. /var/www/magento/app/etc"
-
-[ $? -ne 0 ] && exit 1
+# Obtenemos el nombre de todos los scripts php y los ejecutamos
+# en la maquina remota
+for i in $(ls -1 ${baseDir}/data/*.php | xargs basename)
+do
+   ssh -i ~/.ssh/aws_id_rsa ubuntu@${magentoIp} "sudo php /tmp/data/${i}"
+   [ $? -ne 0 ] && exit 1
+done
 
 exit 0
