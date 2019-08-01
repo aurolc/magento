@@ -55,4 +55,6 @@ do
    [ $? -ne 0 ] && exit 1
 done
 
+ssh $sshOpts -i ~/.ssh/aws_id_rsa ubuntu@${magentoIp} "sudo rm -rf /tmp/data"
+
 exit 0
