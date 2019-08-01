@@ -1,8 +1,8 @@
 #! /bin/bash
 
 baseDir=$(pwd | sed s'#/scripts##')
-#sshOpts="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10"
-sshOpts="-o StrictHostKeyChecking=no -o ConnectTimeout=10"
+sshOpts="-o batchmode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10"
+#sshOpts="-o StrictHostKeyChecking=no -o ConnectTimeout=10"
 
 get_magento_public_ip() {
    local ip
