@@ -23,4 +23,11 @@ pipeline {
          }
       }
    }
+
+   post {
+      // Borramos el workspace
+      always {
+         deleteDir()
+      }
+   }
 }
