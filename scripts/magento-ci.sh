@@ -4,15 +4,15 @@ baseDir=$(pwd | sed s'#/scripts##')
 #sshOpts="-o batchmode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10"
 #sshOpts="-o StrictHostKeyChecking=no -o ConnectTimeout=10"
 
-get_magento_public_ip() {
+get_magento_private_ip() {
    local ip
 
-   ip=$(grep magento_public_ip -A1 terraform.tfstate | \
+   ip=$(grep magento_private_ip -A1 terraform.tfstate | \
         grep value | cut -d: -f2       | \
         sed -e s'/"//g' -r -e s'/,//g' -e s'/[[:space:]]+//g')
 
    if [ -z "$ip" ]; then
-      echo "Magento public IP not found"
+      echo "Magento private IP not found"
       exit 1
    fi
 
@@ -37,8 +37,8 @@ cp -af "$fileTfState" .
 
 [ $? -ne 0 ] && exit 1
 
-# Obtenemos la ip publica asignada a la maquina de magento
-magentoIp=$(get_magento_public_ip)
+# Obtenemos la ip privada asignada a la maquina de magento
+magentoIp=$(get_magento_private_ip)
 
 > ~/.ssh/known_hosts
 
