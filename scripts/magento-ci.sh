@@ -1,7 +1,7 @@
 #! /bin/bash
 
 baseDir=$(pwd | sed s'#/scripts##')
-sshOpts="-o batchmode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10"
+#sshOpts="-o batchmode=yes -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ConnectTimeout=10"
 #sshOpts="-o StrictHostKeyChecking=no -o ConnectTimeout=10"
 
 get_magento_public_ip() {
@@ -40,6 +40,8 @@ cp -af "$fileTfState" .
 # Obtenemos la ip publica asignada a la maquina de magento
 magentoIp=$(get_magento_public_ip)
 
+> ~/.ssh/known_hosts
+
 # Enviamos los ficheros
 #rsync -va --stats -e "ssh $sshOpts -i ~/.ssh/aws_id_rsa" ${baseDir}/data ubuntu@$magentoIp:/tmp/
 rsync -va --stats -e "ssh -i ~/.ssh/aws_id_rsa" ${baseDir}/data ubuntu@$magentoIp:/tmp/
@@ -51,7 +53,8 @@ rsync -va --stats -e "ssh -i ~/.ssh/aws_id_rsa" ${baseDir}/data ubuntu@$magentoI
 # en la maquina remota
 for i in $(ls -1 ${baseDir}/data/*.php | xargs basename)
 do
-   ssh $sshOpts -i ~/.ssh/aws_id_rsa ubuntu@${magentoIp} "sudo php /tmp/data/${i}"
+   #ssh $sshOpts -i ~/.ssh/aws_id_rsa ubuntu@${magentoIp} "sudo php /tmp/data/${i}"
+   ssh -i ~/.ssh/aws_id_rsa ubuntu@${magentoIp} "sudo php /tmp/data/${i}"
 
    [ $? -ne 0 ] && exit 1
 done
